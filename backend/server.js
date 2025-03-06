@@ -188,10 +188,44 @@ app.get('/api/servicos/:id', (req, res) => {
 });
 
 app.post('/api/servicos', (req, res) => {
-  const { veiculo_id, data_servico, tipo_servico, origem, destino, valor, status, observacoes } = req.body;
+  const { 
+    veiculo_id, 
+    data_servico, 
+    prestador,
+    tipo_servico, 
+    origem, 
+    destino, 
+    valor, 
+    observacoes,
+    fotos,
+    checklist 
+  } = req.body;
+
   connection.query(
-    'INSERT INTO servicos (veiculo_id, data_servico, tipo_servico, origem, destino, valor, status, observacoes) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
-    [veiculo_id, data_servico, tipo_servico, origem, destino, valor, status, observacoes],
+    `INSERT INTO servicos (
+      veiculo_id, 
+      data_servico, 
+      prestador,
+      tipo_servico, 
+      origem, 
+      destino, 
+      valor, 
+      observacoes,
+      fotos,
+      checklist
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+    [
+      veiculo_id, 
+      data_servico, 
+      prestador,
+      tipo_servico, 
+      origem, 
+      destino, 
+      valor, 
+      observacoes,
+      JSON.stringify(fotos),
+      JSON.stringify(checklist)
+    ],
     (err, results) => {
       if (err) {
         res.status(500).json({ error: err.message });
@@ -203,16 +237,51 @@ app.post('/api/servicos', (req, res) => {
 });
 
 app.put('/api/servicos/:id', (req, res) => {
-  const { veiculo_id, data_servico, tipo_servico, origem, destino, valor, status, observacoes } = req.body;
+  const { 
+    veiculo_id, 
+    data_servico, 
+    prestador,
+    tipo_servico, 
+    origem, 
+    destino, 
+    valor, 
+    observacoes,
+    fotos,
+    checklist 
+  } = req.body;
+
   connection.query(
-    'UPDATE servicos SET veiculo_id = ?, data_servico = ?, tipo_servico = ?, origem = ?, destino = ?, valor = ?, status = ?, observacoes = ? WHERE id = ?',
-    [veiculo_id, data_servico, tipo_servico, origem, destino, valor, status, observacoes, req.params.id],
+    `UPDATE servicos SET 
+      veiculo_id = ?, 
+      data_servico = ?, 
+      prestador = ?,
+      tipo_servico = ?, 
+      origem = ?, 
+      destino = ?, 
+      valor = ?, 
+      observacoes = ?,
+      fotos = ?,
+      checklist = ?
+    WHERE id = ?`,
+    [
+      veiculo_id, 
+      data_servico, 
+      prestador,
+      tipo_servico, 
+      origem, 
+      destino, 
+      valor, 
+      observacoes,
+      JSON.stringify(fotos),
+      JSON.stringify(checklist),
+      req.params.id
+    ],
     (err) => {
       if (err) {
         res.status(500).json({ error: err.message });
         return;
       }
-      res.json({ id: req.params.id, ...req.body });
+      res.json({ id: Number(req.params.id), ...req.body });
     }
   );
 });

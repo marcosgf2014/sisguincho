@@ -1,91 +1,31 @@
-import React, { useState } from 'react';
-import {
-  Container,
-  Typography,
-  Box,
-  Tabs,
-  Tab,
-  AppBar,
-} from '@mui/material';
-// @ts-ignore
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Container, CssBaseline, ThemeProvider } from '@mui/material';
+import theme from './theme';
+import Navbar from './components/Navbar';
+import HomePage from './pages/HomePage';
 import ClientesPage from './pages/ClientesPage';
-// @ts-ignore
 import VeiculosPage from './pages/VeiculosPage';
-// @ts-ignore
 import ServicosPage from './pages/ServicosPage';
+import './styles/print.css';
 
-interface TabPanelProps {
-  children?: React.ReactNode;
-  index: number;
-  value: number;
-}
-
-function TabPanel(props: TabPanelProps) {
-  const { children, value, index, ...other } = props;
-
+function App() {
   return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <Box sx={{ p: 3 }}>
-          {children}
-        </Box>
-      )}
-    </div>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Router>
+        <Navbar />
+        <Container sx={{ mt: 4 }}>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/clientes" element={<ClientesPage />} />
+            <Route path="/veiculos" element={<VeiculosPage />} />
+            <Route path="/servicos" element={<ServicosPage />} />
+          </Routes>
+        </Container>
+      </Router>
+    </ThemeProvider>
   );
 }
-
-function a11yProps(index: number) {
-  return {
-    id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
-  };
-}
-
-const App: React.FC = () => {
-  const [currentTab, setCurrentTab] = useState(0);
-
-  const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {
-    setCurrentTab(newValue);
-  };
-
-  return (
-    <Box sx={{ width: '100%' }}>
-      <AppBar position="static">
-        <Typography variant="h4" component="h1" sx={{ p: 2, textAlign: 'center' }}>
-          Sistema de Gerenciamento de Guincho
-        </Typography>
-        <Tabs
-          value={currentTab}
-          onChange={handleTabChange}
-          centered
-          textColor="inherit"
-          indicatorColor="secondary"
-          aria-label="Navegação principal"
-        >
-          <Tab label="Clientes" {...a11yProps(0)} />
-          <Tab label="Veículos" {...a11yProps(1)} />
-          <Tab label="Serviços" {...a11yProps(2)} />
-        </Tabs>
-      </AppBar>
-      <Container>
-        <TabPanel value={currentTab} index={0}>
-          <ClientesPage />
-        </TabPanel>
-        <TabPanel value={currentTab} index={1}>
-          <VeiculosPage />
-        </TabPanel>
-        <TabPanel value={currentTab} index={2}>
-          <ServicosPage />
-        </TabPanel>
-      </Container>
-    </Box>
-  );
-};
 
 export default App;

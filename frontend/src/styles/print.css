@@ -1,0 +1,29 @@
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  
+  .MuiDialog-root * {
+    visibility: visible;
+  }
+  
+  .MuiDialog-container {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .MuiDialog-paper {
+    box-shadow: none !important;
+  }
+  
+  .MuiDialogContent-root {
+    padding: 0 !important;
+  }
+  
+  button {
+    display: none !important;
+  }
+} 

@@ -1,4 +1,5 @@
-CREATE DATABASE IF NOT EXISTS guincho_db;
+DROP DATABASE IF EXISTS guincho_db;
+CREATE DATABASE guincho_db;
 USE guincho_db;
 
 CREATE TABLE IF NOT EXISTS clientes (
@@ -43,10 +44,9 @@ CREATE TABLE IF NOT EXISTS servicos (
   FOREIGN KEY (veiculo_id) REFERENCES veiculos(id) ON DELETE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS fotos_servico (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  servico_id INT NOT NULL,
-  url VARCHAR(255) NOT NULL,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (servico_id) REFERENCES servicos(id) ON DELETE CASCADE
-); 
+-- Inserir alguns dados de exemplo
+INSERT INTO clientes (nome, telefone, endereco, email) VALUES
+('João Silva', '(11) 99999-9999', 'Rua A, 123', 'joao@email.com');
+
+INSERT INTO veiculos (cliente_id, placa, marca, modelo, ano, cor, chassi, observacoes) VALUES
+(1, 'ABC1234', 'Toyota', 'Corolla', '2020', 'Prata', '12345678901234567', 'Veículo em bom estado'); 

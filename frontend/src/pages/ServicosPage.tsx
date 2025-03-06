@@ -81,6 +81,7 @@ const ServicosPage: React.FC = () => {
           </Button>
           <ServicoList
             servicos={servicos}
+            veiculos={veiculos}
             onEdit={handleEdit}
             onDelete={handleDelete}
             searchTerm={searchTerm}
